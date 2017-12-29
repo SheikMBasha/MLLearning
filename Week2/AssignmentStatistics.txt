@@ -1,0 +1,67 @@
+Q-1
+
+1. Identify the data types (numeric/categorical/ordinal) for each of the variables
+* Distance - Numerical
+* PeakTime(demand for surging) - Nominal
+* TravelType(Sharing or non sharing travel type) - Nominal
+* TimeOfTravel(day/night) - Nominal
+* Weather - - Nominal
+* UserType (Prime/Premium user or normal user) - Nominal
+* CabType (Sedan/Mini/Micro) - Nominal
+* JourneyTime - Numerical
+
+Few more examples that you come across daily:
+
+1.	Blood pressure reading: Numerical
+2.	Number of stocks traded: Numeric
+3.	Education background: Nominal
+4.	Type of groceries purchased : Nominal
+5.	Price of petrol: Numeric
+6.	Rating a Restaurant: Ordinal
+7.	Buy a car or not: Nominal
+8.	Lifetime of a battery: Numeric
+
+Q-2
+
+2.	A company has 10 employees and their average salary is 1 lpa. Now they have recruited a CEO who salary is normally very high. Which of the following measure of central tendencies will be impacted
+a.	Median - Change
+b.	Mode - No Change
+c.	Mean - Change
+
+Q-4:
+
+	
+	
+Observation:
+1. Mean and median are same for all.
+2. Range is very odd for PizzaHut and Swiggy 0-60 
+As standard deviation is less, EagleBoys data is closely distributed around mean.
+EagelBoys takes less time.
+
+3.	Do you still believe that all the service providers are prompt in their services? 
+No all service providers are not prompt in their services.
+
+
+Q-4 
+Philip is more consistent. as SD is around mean and low SD.
+
+8.	What is the probability that we get a 5th Tuesday in a 30-day month?
+Probability - month should start on mon and tuesday
+so - P(E) - 2/7
+
+9.
+a.	What are total # of events  in the sample space?
+two are independent events
+P(A) * P(B) -> 2*2 = 4
+
+c. 
+
+10.
+
+A = {HHH,TTT}
+B = { HHT, HTH, THH, HHH}
+C = { THH HTH HHT TTH THT HTT HHH}
+
+P(A) - 2/8 = 1/4
+P(B) = 1/2
+p(C) = 7/8
