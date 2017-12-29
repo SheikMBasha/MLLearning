@@ -1,0 +1,24 @@
+1. Whenever there are two variable, one is categorical and other is numerical. go for ChiSquare test.
+
+2. Whenever there are two categorical variables, we want to study relationship between those two, go for ChiSquare test.
+
+3. If we have more than 2 samples, we go for ANOVA.
+
+4. If there are only two samples and want to compute mean, go for T-test.
+5. If there are only two populations and want to compute variances, go for F-test.
+
+Gender vs game(particular sport)
+Game1, Game2, Game3 and Genders are M/F - Chisquare
+
+Compute variance:
+
+for single population - Chisquare
+for two population - F test
+for more than two population - Anova (for both mean and variance)
+
+
+compute mean:
+
+Z-test and T-test
+
+
