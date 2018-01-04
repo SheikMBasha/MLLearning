@@ -109,6 +109,7 @@ par(mfrow = c(1,1))
 # In test data dont keep target variables
 target <- cars_test$Price
 cars_test$Price <- NULL
+class(cars_test)
 test_prediction = predict(LinReg,cars_test)
 #test_actual = 
 ##__________________________________________________________________________________##
