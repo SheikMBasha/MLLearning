@@ -14,7 +14,9 @@ summary(bank_data)
 
 # no missing values, concluded from summary
 is.na(bank_data)
+bank_data[is.na(bank_data)]
 bank_data[!complete.cases(bank_data$age),]
+bank_data[!complete.cases(bank_data),]
 
 ?sample
 rows = seq(1,nrow(bank_data),1)
@@ -23,7 +25,7 @@ trainrows <- sample(rows,(70*nrow(bank_data))/100)
 
 bank_data_train <- bank_data[trainrows,]
 bank_data_test <- bank_data[-trainrows,]
-
+bank_data_train$age
 log_reg <- glm(y ~ age, data = bank_data_train, family = "binomial")
 
 summary(log_reg)               
@@ -32,7 +34,7 @@ summary(log_reg)
 # refer video for more details
 
 bank_data_test[1,]
-logit <- -2.636388 + 0.014002 * 35
+logit <- -2.931194 + 0.020948 * 35
 odds = exp(logit)
 d <- 1 + odds
 odds/d # 0.0999

@@ -46,9 +46,9 @@ par(mfrow=c(1,1)) #reset default
 # satisfied or not ? 
 
 #Action items: from Residual vs fitted and Scale-location
-  #a. Segment data by splitting
-  #b. transformation
-  #c. non linear model
+#a. Segment data by splitting
+#b. transformation
+#c. non linear model
 
 # Normal Q-Q graph
 #a. remove the outliers
@@ -133,6 +133,43 @@ test_prediction_std1 <- predict(LinReg_std1, test_std)
 pred_Std1 <- regr.eval(target_std,test_prediction_std1)
 pred_Std1
 
+
+#Standardization On significant data
+data_cat_sig<- data[,c(1,11,12)]
+data_num_sig <- data[,-c(1,11,12,4,5,9)]
+summary(data_num_sig)
+# Apply standardization. Ensure , you exclude the target variable 
+#during standardization
+#rm(data_num_subset)
+data_num_sig_std <- decostand(subset(data_num_sig, select=-c(TotalRevenueGenerated)),"standardize")
+
+#Combine standardized attributes back with the 
+# categorical attributes
+data_std_sig_final <- cbind(data_num_sig_std,data_cat_sig)
+data_std_sig_final<- cbind(data_std_sig_final, data_num$TotalRevenueGenerated)
+class(data_std_sig_final)
+colnames(data_std_sig_final)[ncol(data_std_sig_final)] <- "TotalRevenueGenerated"
+ncol(data_std_sig_final)
+#Split the data into train(70%) and test data sets
+rows= seq(1, nrow(data_std_sig_final),1)
+set.seed(123)
+trainRows= sample(rows,(70*nrow(data_std_sig_final))/100)
+train_std_sig = data_std_sig_final[trainRows,] 
+test_std_sig = data_std_sig_final[-trainRows,]
+
+# Build linear regression with all attributes
+LinReg2_std1 <- lm(TotalRevenueGenerated~., data=train_std_sig)
+summary(LinReg2_std1)
+
+#Error verification on train data
+regr.eval(train_std_sig$TotalRevenueGenerated,LinReg2_std1$fitted.values)
+
+#Error verification on test data
+target_sig_std <- test_std_sig$TotalRevenueGenerated
+test_prediction__sig_std1 <- predict(LinReg2_std1, test_std_sig)
+pred__sig_Std1 <- regr.eval(target_sig_std,test_prediction__sig_std1)
+pred__sig_Std1
+
 #Why standardization
 #1. We can compare coeff.
 #2. variables wont overlshadow each other.
@@ -148,12 +185,32 @@ library(car)
 vif(LinReg_std1)
 str(train_std)
 # remove the highly correlated attributes and 
+data_3=subset(data_std_final,select=-c(FrquncyOfPurchase,NoOfGamesBought))
+#splitting
+rows= seq(1, nrow(data_3),1)
+set.seed(123)
+trainRows= sample(rows,(70*nrow(data_3))/100)
+train_std_mc = data_3[trainRows,] 
+test_std_mc = data_3[-trainRows,]
 # build the model 
 
-#LinReg_std2<- 
-#summary(LinReg_std2)
-#vif(LinReg_std2)
+LinReg_std2<- lm(formula = TotalRevenueGenerated~.,data = train_std_mc)
+summary(LinReg_std2)
+#summary(LinReg2_std1)
+vif(LinReg_std2)
+#vif(LinReg2_std1)
+#Error verification on train data
+train_std_mc_error=data.frame(regr.eval(train_std_mc$TotalRevenueGenerated, LinReg_std2$fitted.values))
+colnames(train_std_mc_error)="train_std_error"
+
 #Error verification on test data
+target=test_std_mc$TotalRevenueGenerated
+test=subset(test_std_mc,select=-c(TotalRevenueGenerated))
+pred=predict(LinReg_std2,test)
+test_std_mc_error=data.frame(regr.eval(target,pred))
+colnames(test_std_mc_error)="test_std_error"
+
+regr.eval(target,pred)
 
 #AIC tells how muc data is lost.
 # lower the AIC, it is best
@@ -167,29 +224,63 @@ Step1 <- stepAIC(LinReg_std1, direction="backward")
 #Step2 <- stepAIC(LinReg1, direction="forward")
 Step3 <- stepAIC(LinReg_std1, direction="both")
 summary(Step3)
+Step3
+
 # select the final list of variables
-# and build the model
-Mass_LinReg1 <- 
+Mass_data <- subset(data_std_final, select=-c(MaxAgeOfChild,NoOfGamesPlayed))
+
+#DIY split the data into train and test data sets (70/30 Split)
+rows = seq(1,nrow(Mass_data),1)
+set.seed(123)
+trainRows = sample(rows,(70*nrow(Mass_data))/100)
+#DIY save train data to a dataframe named "train" and test data to a dataframe named "test"
+train_mass <- Mass_data[trainRows,]
+test_mass <- Mass_data[-trainRows,]
+# BUILD LINEAR REGRESSION MODEL 
+
+# Build model with all attributes into model. 
+# "TotalRevenueGenerated" is the target variable 
+?lm
+Mass_LinReg1<- lm( TotalRevenueGenerated ~ ., data=train_mass)
 summary(Mass_LinReg1)
+
+#Review the residual plots
+par(mfrow=c(1,1))
+plot(Mass_LinReg1)
+
 par(mfrow=c(2,2))
 plot(Mass_LinReg1)
 plot(Mass_LinReg1,which=4)
-par(mfrow=c(1,1))
+
 head(train)
+
 # Identify the outliers using the cook's distance
 # remove them
 # build model without the influencial points (record #2729) 
-which(rownames(train_std)%in%c(???))
-LinReg_No_infl<- 
+which(rownames(train_mass)%in%c(2729))
+
+train_aic_inf=train_mass[-c(230),]
+test_aic_nif=test_mass[-c(230),]
+LinReg_No_infl<-lm(TotalRevenueGenerated~.,data = train_aic_inf)
 summary(LinReg_No_infl)
 
-#Error verification on train data
-regr.eval(train_std$TotalRevenueGenerated, Mass_LinReg1$fitted.values) 
-#Error verification on test data
-MASS_Pred1<-predict(Mass_LinReg1,test_std)
-regr.eval(test$TotalRevenueGenerated, MASS_Pred1)
+#Review the residual plots
 
-Error_calc = data.frame(train_std$TotalRevenueGenerated,Mass_LinReg1$fitted.values)
+par(mfrow=c(2,2))
+plot(LinReg_No_infl)
+plot(LinReg_No_infl,which=4)
+#Mass_LinReg1[Mass_LinReg1.which(rownames(train)%in%c(???))]
+#LinReg_No_infl<- 
+ # summary(LinReg_No_infl)
+
+#Error verification on train data
+regr.eval(train_aic_inf$TotalRevenueGenerated, LinReg_No_infl$fitted.values)
+
+#Error verification on test data
+MASS_Pred1<-predict(LinReg_No_infl,test_aic_nif)
+regr.eval(test_aic_nif$TotalRevenueGenerated, MASS_Pred1)
+
+Error_calc = data.frame(TotalRevenue = train_aic_inf$TotalRevenueGenerated,Fitted_Val = LinReg_No_infl$fitted.values)
 write.csv(x = Error_calc,file = "Error_calc.csv")
 
 
@@ -199,19 +290,60 @@ write.csv(x = Error_calc,file = "Error_calc.csv")
 # If MinAgeofChild  and MaxAgeofChild is greater than or equal to 100, 
 # then, replace with median of the respective column
 
+data$MinAgeOfChild=ifelse(data$MinAgeOfChild>100,yes = median(data$MinAgeOfChild),no=data$MinAgeOfChild)
+data$MaxAgeOfChild=ifelse(data$MaxAgeOfChild>100,yes = median(data$MaxAgeOfChild),no=data$MaxAgeOfChild)
+
 # split the data into train and test data sets
 
-# BUILD LINEAR REGRESSION MODEL 
+set.seed(123)
+split = sample.split(data$TotalRevenueGenerated, SplitRatio = 0.8)
+training_set = subset(data, split == TRUE)
+test_set = subset(data, split == FALSE)
 
+# BUILD LINEAR REGRESSION MODEL 
+LinearRegression=lm(formula = TotalRevenueGenerated~.,data = training_set)
+summary(LinearRegression)
 # build model with all attributes into model 
+par(mfrow=c(2,2))
+plot(LinearRegression)
+
 #Error verification on train data
+regr.eval(training_set$TotalRevenueGenerated, LinearRegression$fitted.values)
 #Error verification on test data
+target=test_set$TotalRevenueGenerated
+test=subset(test_set,select=-c(TotalRevenueGenerated))
+pred=predict(LinearRegression,test)
+regr.eval(target,pred)
 
 #Exp2- Variable Transformations Y and/or X variables
-#Y Variable Transformation - Apply log 
+#Y Variable Transformation - Apply log
+datatemp <- dataForModel
 datatemp$TotalRevenueGenerated <- log(datatemp$TotalRevenueGenerated)
 # Build the model and compute the error metrics 
+rows = seq(1,nrow(datatemp),1)
+set.seed(123)
+trainRows = sample(rows,(70*nrow(datatemp))/100)
+#DIY save train data to a dataframe named "train" and test data to a dataframe named "test"
+train_temp <- datatemp[trainRows,]
+test_temp <- datatemp[-trainRows,]
+
+LinReg_transform<- lm( TotalRevenueGenerated ~ ., data=train_temp)
+summary(LinReg_transform)
+
+#Review the residual plots
+par(mfrow=c(2,2))
+plot(LinReg_transform)
+plot(LinReg_transform,which=4)
+par(mfrow=c(1,1))
 #X Variable Transformation  and Build the model and validate
+
+#Error verification on train data
+regr.eval(train_temp$TotalRevenueGenerated, LinReg_transform$fitted.values)
+#Error verification on test data
+target=test_temp$TotalRevenueGenerated
+test=subset(test_temp,select=-c(TotalRevenueGenerated))
+pred=predict(LinReg_transform,test)
+regr.eval(target,pred)
 
 #Exp3- Variable Interactions
 
