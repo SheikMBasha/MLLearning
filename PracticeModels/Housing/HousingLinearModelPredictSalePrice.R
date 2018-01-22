@@ -99,8 +99,28 @@ housing_train$BsmtFinType2[is.na(housing_train$BsmtFinType2)] <- as.factor("NB")
 # variables  MasVnrType and MasVnrArea have NA's but just 8 in count. doing imputation to replace
 str(housing_train)
 
-?centralImputation
-x <- centralImputation(housing_train$MasVnrType)
-centralImpite <- centralImputation(housing_train$MasVnrType)
-is.na(centralImpite)
-housing_train$MasVnrArea <- centralImputation(housing_train$MasVnrArea)
+table(which.max(housing_train$MasVnrType))
+unique(housing_train$MasVnrType)
+
+rm(Mode)
+
+names(which.max(table(housing_train$MasVnrType)))
+housing_train$MasVnrType[is.na(housing_train$MasVnrType)] <- names(which.max(table(housing_train$MasVnrType)))
+
+housing_train$MasVnrArea[is.na(housing_train$MasVnrArea)] <- median(housing_train$MasVnrArea, na.rm = T)
+
+housing_train$Electrical[is.na(housing_train$Electrical)] <- names(which.max(table(housing_train$Electrical)))
+
+housing_train$LotFrontage[is.na(housing_train$LotFrontage)] <- median(housing_train$LotFrontage, na.rm = T)
+housing_train$GarageYrBlt[is.na(housing_train$GarageYrBlt)] <- median(housing_train$GarageYrBlt, na.rm = T)
+
+
+basicHousingLR <- lm(SalePrice ~ ., data=housing_train)
+plot(basicHousingLR)
+
+library(MASS)
+
+Step1 <- stepAIC(basicHousingLR, direction = "both")
+summary(Step1)
+
+
