@@ -1,6 +1,6 @@
 rm(list=ls(all=T))
 getwd()
-setwd('E://Insofe//Week7//Day1//Lab//Day1//20180120//housing_data')
+setwd('E://Insofe//Week7//Day1//Lab//20180120//housing_data')
 
 housing_raw <- read.csv('housing_data.csv', header = T, sep = ',')
 
