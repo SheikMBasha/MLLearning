@@ -85,12 +85,12 @@ plot(cv_lasso)
 coef(cv_lasso)
 cv_lasso$lambda.min
 
-plot(fit1, xvar = "lambda", lable = TRUE)
-plot(fit1, xvar = "lambda", lable = TRUE, lambda.interp = -4)
-plot(fit1, xvar = "dev", lablel = TRUE)
+plot(fit1, xvar = "lambda", label = TRUE)
+plot(fit1, xvar = "dev", label = TRUE)
 
 fit2 <- glmnet(traindata2, ytrain, alpha = 1, lambda = cv_lasso$lambda.min)
 coef(fit2)
+plot(fit2, xvar='lambda', label=TRUE)
 #Error Verification
 RegErros <- data.frame(RegErros, Lasso_Train = regr.eval(ytrain, predict(fit2, traindata2)))
 RegErros <- data.frame(RegErros, Lasso_Test = regr.eval(ytest, predict(fit2,testdata2)))
@@ -111,7 +111,7 @@ plot(cv_Ridge)
 coef(cv_Ridge)
 plot(fit_Ridge, xvar = "lambda", label = TRUE)
 
-ridge_fit2 <- glmnet(traindata2, ytrain, lambda = cv_Ridge$lambda.min)
+ridge_fit2 <- glmnet(traindata2, ytrain, alpha = 0, lambda = cv_Ridge$lambda.min)
 coef(ridge_fit2)
 
 RegErros <- data.frame(RegErros, RidgeTrain = regr.eval(ytrain, predict(ridge_fit2, traindata2)))
