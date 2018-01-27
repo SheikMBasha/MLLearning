@@ -8,7 +8,6 @@ head(data)
 names(data)
 tail(data)
 
-install.packages('sqldf')
 library(sqldf) # to write SQL like commands in R to aggregate the data. 
 RtData2.Day <- sqldf("select Date,min(Price) as MIN_PRICE from data group by Date")
 str(RtData2.Day)
@@ -50,8 +49,7 @@ RtData2.Day2$MIN_PRICE=(na.locf(RtData2.Day2$MIN_PRICE) +
 head(RtData2.Day2)
 str(RtData2.Day2)
 
-RtData2.Day2$WEEK <- as.numeric(format(RtData2.Day2$dateRange, 
-                                       format="%Y.%W"))
+RtData2.Day2$WEEK <- as.numeric(format(RtData2.Day2$dateRange, format="%Y.%W"))
 head(RtData2.Day2)
 # Now aggregating to weekly data 
 RtData2Day2 <- RtData2.Day2
