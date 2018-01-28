@@ -90,7 +90,7 @@ plot(1:15, wss,
 
 # For unseen data, we compute its distance from all the cluster centroids
 # and assigns it to that cluster that is nearest to it
-
+    
 test_datapoint <- mtcars[sample(1:nrow(mtcars),1),]
 closest.cluster <- function(x) {
         cluster.dist <- apply(fit$centers, 1, function(y) sqrt(sum((x-y)^2)))
