@@ -1,0 +1,30 @@
+15
+auc =	0.7935128
+Accuracy Train = 0.81
+Accuracy Test = 0.80
+
+20
+auc = 0.734476
+Accuracy Train = 0.7838288
+Accuracy Test =  0.7754
+
+# With reduced variables
+20
+auc = 0.804237
+Accuracy Train = 0.8358168
+Accuracy Test =  0.8259693
+
+15
+auc =	0.8585611
+Accuracy Train = 0.87
+Accuracy Test = 0.8675
+
+10
+auc = 0.883929
+Accuracy Train = 0.888
+Accuracy Test = 0.88733
+
+median 7.5
+auc = 0.8868365
+Accuracy Train = 0.8862
+Accuracy Test = 0.8848

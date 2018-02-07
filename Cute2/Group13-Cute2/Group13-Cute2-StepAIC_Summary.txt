@@ -1,0 +1,57 @@
+Call:
+lm(formula = TotalRevenueGenerated ~ Country + MIN_AGE + MAX_AGE + 
+    NumHouseChildren + Units + Units360 + FrequencyLF + FrequencyApp + 
+    FreqGamePlay + FrequencyLF30 + FrequencyApp30 + FrequencyApp360 + 
+    FreqGamePlay360 + Revenue30 + Revenue180 + Revenue360 + NumGamesPlayed + 
+    NumGamesPlayed360 + RecencyApp + RecencyApp360 + RecencyLF + 
+    RecencyLF7 + RecencyLF30 + RecencyLF360 + Recencydown + Recencydown360 + 
+    maxRecencyCum + minRecencyCum + maxRecencyCum360 + FavSourceBin + 
+    FavGameBin + TenureDays, data = train_data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-138.348   -1.634    0.056    0.493  297.894 
+
+Coefficients:
+                       Estimate Std. Error t value Pr(>|t|)    
+(Intercept)           2.878e+00  3.375e-01   8.526  < 2e-16 ***
+CountryUnited States  2.695e-01  1.246e-01   2.164 0.030504 *  
+MIN_AGE               1.059e-01  2.112e-02   5.014 5.34e-07 ***
+MAX_AGE              -1.574e-02  1.068e-02  -1.473 0.140770    
+NumHouseChildren      1.390e-01  7.133e-02   1.949 0.051263 .  
+Units                 8.241e+00  7.294e-02 112.986  < 2e-16 ***
+Units360             -1.070e+01  1.302e-01 -82.155  < 2e-16 ***
+FrequencyLF           4.445e+00  1.388e-01  32.026  < 2e-16 ***
+FrequencyApp         -3.735e-01  6.276e-02  -5.950 2.70e-09 ***
+FreqGamePlay          2.002e-03  3.487e-04   5.742 9.42e-09 ***
+FrequencyLF30        -2.718e+00  5.558e-01  -4.890 1.01e-06 ***
+FrequencyApp30       -7.236e-01  1.624e-01  -4.456 8.38e-06 ***
+FrequencyApp360       2.794e+00  1.043e-01  26.791  < 2e-16 ***
+FreqGamePlay360      -2.154e-03  5.280e-04  -4.079 4.53e-05 ***
+Revenue30             7.052e-02  2.065e-02   3.416 0.000637 ***
+Revenue180            5.270e-02  6.507e-03   8.100 5.67e-16 ***
+Revenue360            9.469e-01  3.760e-03 251.829  < 2e-16 ***
+NumGamesPlayed        1.041e-01  1.522e-02   6.836 8.24e-12 ***
+NumGamesPlayed360    -1.279e-01  1.974e-02  -6.482 9.14e-11 ***
+RecencyApp           -3.398e-02  2.652e-03 -12.809  < 2e-16 ***
+RecencyApp360         6.486e-03  2.695e-03   2.407 0.016096 *  
+RecencyLF             6.862e-02  4.672e-03  14.688  < 2e-16 ***
+RecencyLF7           -1.899e+00  5.904e-01  -3.217 0.001297 ** 
+RecencyLF30           6.154e-01  1.102e-01   5.587 2.33e-08 ***
+RecencyLF360          5.056e-02  8.479e-03   5.964 2.49e-09 ***
+Recencydown          -1.315e-02  3.355e-03  -3.919 8.92e-05 ***
+Recencydown360        5.226e-03  2.056e-03   2.541 0.011052 *  
+maxRecencyCum         3.081e-02  2.779e-03  11.087  < 2e-16 ***
+minRecencyCum        -1.915e-02  2.302e-03  -8.320  < 2e-16 ***
+maxRecencyCum360     -5.337e-03  2.671e-03  -1.998 0.045752 *  
+FavSourceBinNone     -3.970e+00  3.236e-01 -12.270  < 2e-16 ***
+FavSourceBinUniform  -5.504e+00  4.156e-01 -13.243  < 2e-16 ***
+FavGameBinNone        3.231e-01  2.058e-01   1.570 0.116445    
+FavGameBinUniform     1.133e+00  2.200e-01   5.148 2.64e-07 ***
+TenureDays            1.948e-01  9.088e-03  21.440  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 10.71 on 39628 degrees of freedom
+Multiple R-squared:  0.9554,	Adjusted R-squared:  0.9553 
+F-statistic: 2.495e+04 on 34 and 39628 DF,  p-value: < 2.2e-16
