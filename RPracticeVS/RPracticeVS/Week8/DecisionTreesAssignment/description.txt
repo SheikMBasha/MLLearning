@@ -1,0 +1,25 @@
+Codelist
+Var. #,Variable Name,Description,Variable Type,Code Description
+
+01,DURATION,Duration of credit in months,Numerical,
+02,NEW_CAR,Purpose of credit,Binary,"car (new)   0: No, 1: Yes"
+03,USED_CAR,Purpose of credit,Binary,"car (used)    0: No, 1: Yes"
+04,FURNITURE,Purpose of credit,Binary,"furniture/equipment    0: No, 1: Yes"
+05,RADIO/TV,Purpose of credit,Binary,"radio/television    0: No, 1: Yes"
+06,EDUCATION,Purpose of credit,Binary,"education    0: No, 1: Yes"
+07,RETRAINING,Purpose of credit,Binary,"retraining    0: No, 1: Yes"
+08,AMOUNT,Credit amount,Numerical,
+09,,INSTALL_RATE,Installment rate as % of disposable income,Numerical,
+10,CO-APPLICANT,Application has a co-applicant,Binary," 0: No, 1: Yes"
+11,GUARANTOR,Applicant has a guarantor,Binary," 0: No, 1: Yes"
+12,REAL_ESTATE,Applicant owns real estate,Binary," 0: No, 1: Yes"
+13,PROP_UNKN_NONE,Applicant owns no property (or unknown),Binary," 0: No, 1: Yes"
+14,AGE,Age in years,Numerical,
+15,OTHER_INSTALL,Applicant has other installment plan credit,Binary," 0: No, 1: Yes"
+16,RENT,Applicant rents ,Binary," 0: No, 1: Yes"
+17,OWN_RES,Applicant owns residence,Binary," 0: No, 1: Yes"
+18,NUM_CREDITS,Number of existing credits at this bank,Numerical,
+19,NUM_DEPENDENTS,Number of people for whom liable to provide maintenance,Numerical,
+20,TELEPHONE,Applicant has phone in his or her name,Binary," 0: No, 1: Yes"
+21,FOREIGN,Foreign worker,Binary," 0: No, 1: Yes"
+22,RESPONSE,Credit rating is good,Binary," 0: No, 1: Yes"

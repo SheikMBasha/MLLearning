@@ -2,6 +2,7 @@
 rm(list = ls(all = TRUE))
 getwd()
 
+setwd("E:\\Insofe\\RPracticeVS\\RPracticeVS\\Week8\\Day2DecisionTrees")
 #Load all the Libraries Required
 #Decision tress make axis parallel cuts.
 # rpart is recursion partitioning algorithm, can be used for regression as well
@@ -63,7 +64,7 @@ printcp(DT_rpart_Reg)
 
 
 plot(printcp(DT_rpart_Reg), type = 'b') # its bit less than 0.1
-
+rsq.rpart(DT_rpart_Reg)
 predCartTrain = predict(DT_rpart_Reg, newdata = train, type = "vector")
 predCartTest = predict(DT_rpart_Reg, newdata = test, type = "vector")
 
@@ -106,7 +107,7 @@ test = customerDataRaw[-datapart,]
 
 ##Build classification model using C50
 library(C50)
-
+?C5.0
 #a. Build model
 DT_C50 <- C5.0(Revenue ~ ., data = train)
 summary(DT_C50)

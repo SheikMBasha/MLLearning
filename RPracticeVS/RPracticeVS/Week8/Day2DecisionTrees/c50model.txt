@@ -1,0 +1,64 @@
+
+Call:
+C5.0.formula(formula = Revenue ~ ., data = train)
+
+
+C5.0 [Release 2.07 GPL Edition]  	Fri Feb 09 08:29:52 2018
+-------------------------------
+
+Class specified by attribute `outcome'
+
+Read 2248 cases (13 attributes) from undefined.data
+
+Decision tree:
+
+NoOfUnitsPurchased > 16: Premium (637/94)
+NoOfUnitsPurchased <= 16:
+:...NoOfGamesBought <= 3:
+    :...FrquncyOfPurchase <= 2: Regular (9)
+    :   FrquncyOfPurchase > 2: Premium (139/48)
+    NoOfGamesBought > 3:
+    :...NoOfUnitsPurchased <= 11: Regular (667/80)
+        NoOfUnitsPurchased > 11:
+        :...NoOfGamesBought > 11:
+            :...NoOfUnitsPurchased <= 14: Regular (461/109)
+            :   NoOfUnitsPurchased > 14:
+            :   :...NoOfGamesBought <= 14: Premium (23/6)
+            :       NoOfGamesBought > 14: Regular (205/84)
+            NoOfGamesBought <= 11:
+            :...FrquncyOfPurchase > 13: Premium (55/7)
+                FrquncyOfPurchase <= 13:
+                :...NoOfGamesBought <= 5: Premium (9)
+                    NoOfGamesBought > 5:
+                    :...NoOfChildren <= 1: Regular (13/1)
+                        NoOfChildren > 1:
+                        :...NoOfGamesPlayed <= 89: Premium (21/6)
+                            NoOfGamesPlayed > 89: Regular (9)
+
+
+Evaluation on training data (2248 cases):
+
+	    Decision Tree   
+	  ----------------  
+	  Size      Errors  
+
+	    12  435(19.4%)   <<
+
+
+	   (a)   (b)    <-classified as
+	  ----  ----
+	   723   274    (a): class Premium
+	   161  1090    (b): class Regular
+
+
+	Attribute usage:
+
+	100.00%	NoOfUnitsPurchased
+	 71.66%	NoOfGamesBought
+	 11.34%	FrquncyOfPurchase
+	  1.91%	NoOfChildren
+	  1.33%	NoOfGamesPlayed
+
+
+Time: 0.0 secs
+
