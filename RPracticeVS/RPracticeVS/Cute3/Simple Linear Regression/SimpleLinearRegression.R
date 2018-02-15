@@ -122,7 +122,7 @@ test_prediction_T <- predict(Lin_Reg1, test_data_T)
 error_df <- data.frame(error_df, LinReg_Test1 = regr.eval(target_T, test_prediction_T))
 
 # Store predictions from the model
- <- predict(Lin_Reg1, test_data_T)
+preds_rf <- predict(Lin_Reg1, test_data_T)
 
 # Predict on the train data
 preds_train_rf <- predict(Lin_Reg1, train_data_T)

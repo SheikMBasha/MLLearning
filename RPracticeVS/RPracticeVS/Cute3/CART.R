@@ -120,7 +120,7 @@ ErrorDF <- data.frame(ErrorDF, TestErrorC0.0001MinSplit10 = regr.eval(test$Total
 
 # As the error is mostly constant in rpart.plot, lets try min split 50
 
-rPartModel4 <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova", control = rpart.control(cp = 0.0001, minsplit = 50))
+rPartModel4 <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova", control = rpart.control(cp = 0.00001, minsplit = 10))
 print(rPartModel4)
 printcp(rPartModel4)
 rpart.plot(rPartModel4)
@@ -132,6 +132,23 @@ predcartTest4 <- predict(rPartModel4, newdata = test, type = "vector")
 ErrorDF <- data.frame(ErrorDF, TrainErrorC0.0001MinSplit50 = regr.eval(train$TotalRevenueGenerated, predcartTrain4))
 ErrorDF <- data.frame(ErrorDF, TestErrorC0.0001MinSplit50 = regr.eval(test$TotalRevenueGenerated, predcartTest4))
 
+######
+# trying with cp #5.2803e-05
+
+#rPartModel5 <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova", control = rpart.control(cp = 5.2803e-05, minsplit = 10))
+rPartModel5 <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova", control = rpart.control(cp = 2.0873e-04, minsplit = 10))
+
+print(rPartModel5)
+printcp(rPartModel5)
+rpart.plot(rPartModel5)
+plotcp(rPartModel5)
+
+predcartTrain5 <- predict(rPartModel5, newdata = train, type = "vector")
+predcartTest5 <- predict(rPartModel5, newdata = test, type = "vector")
+
+ErrorDF <- data.frame(ErrorDF, TrainErrorC0.00005MinSplit10 = regr.eval(train$TotalRevenueGenerated, predcartTrain5))
+ErrorDF <- data.frame(ErrorDF, TestErrorC0.00005MinSplit10 = regr.eval(test$TotalRevenueGenerated, predcartTest5))
+
 # when we saw summary of rpartModel3 
 # summary shows error increases at below row
 # 64  0.00028545     65  0.074950 0.094993 0.0034154
@@ -140,7 +157,7 @@ ErrorDF <- data.frame(ErrorDF, TestErrorC0.0001MinSplit50 = regr.eval(test$Total
 
 train_control <- trainControl(method = "repeatedcv", number = 50, savePredictions = TRUE)
 ?train
-cvModel <- train(TotalRevenueGenerated ~ ., data = train, method = "rpart", trControl = train_control )
+cvModel <- train(TotalRevenueGenerated ~ ., data = train, method = "rpart", trControl = train_control, parms = lift(split = "gini"), tunelength= 10 )
 cvModel$bestTune
 print(cvModel)
 
@@ -157,3 +174,24 @@ ErrorDF <- data.frame(ErrorDF, TrainErrorKFold = regr.eval(train$TotalRevenueGen
 ErrorDF <- data.frame(ErrorDF, TestErrorKFold = regr.eval(test$TotalRevenueGenerated, predcartTest5))
 
 cvModel$pred
+
+#actual <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+#predicted <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 11)
+#regr.eval(actual, predicted)
+
+#mape <- function() {
+    #actual <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    #predicted <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 11)
+    #p <- c()
+    #for (i in 1:length(actual)) {
+        #x <- (actual[i] - predicted[i]) / actual[i]
+        #p <- c(p, x)
+    #}
+    ##print(actual[1])
+    ##print(predicted[1])
+    ##x <- (actual[1] - predicted[1]) / actual[1]
+    ##p <- c(p, x)
+    #return(p)
+#}
+
+#abc <- mape()
