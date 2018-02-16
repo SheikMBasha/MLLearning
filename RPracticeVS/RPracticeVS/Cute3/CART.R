@@ -54,7 +54,7 @@ summary(rawFiltered)
 str(rawFiltered)
 
 #Applying Square transformation
-rawFiltered$TotalRevenueGenerated <- sqrt(rawFiltered$TotalRevenueGenerated)
+rawFiltered$TotalRevenueGenerated <- log(rawFiltered$TotalRevenueGenerated)
 
 #Set seed and split data into test and train
 set.seed(123)
@@ -62,7 +62,8 @@ datapart <- createDataPartition(rawFiltered$TotalRevenueGenerated, times = 1, p 
 train <- rawFiltered[datapart,]
 test <- rawFiltered[-datapart,]
 #? rpart
-
+#rm(ErrorDF)
+#Building Decision Tree Regression model using rpart
 rPartModel <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova")
 print(rPartModel)
 printcp(rPartModel)
@@ -71,14 +72,13 @@ rpart.plot(rPartModel)
 predcartTrain <- predict(rPartModel, newdata = train, type = "vector")
 predcartTest <- predict(rPartModel, newdata = test, type = "vector")
 
-ErrorDF <- data.frame(ModelTrain = regr.eval(train$TotalRevenueGenerated, predcartTrain))
-ErrorDF <- data.frame(ErrorDF, ModelTest = regr.eval(test$TotalRevenueGenerated, predcartTest))
+ErrorDF <- data.frame(TrainCP0.01 = regr.eval(train$TotalRevenueGenerated, predcartTrain))
+ErrorDF <- data.frame(ErrorDF, TestCP0.01 = regr.eval(test$TotalRevenueGenerated, predcartTest))
 
 #MAPE is 0.3141461 and 0.3188665
 # we can further decrease the cp (complexity paramter) to check if the error goes down
 # at cp 0.010000, xerror is 0.18908
-#? rpart.control
-#trying with cp 0.001
+#Building model with cp 0.001
 rPartModel1 <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova", control = rpart.control(cp = 0.001))
 print(rPartModel1)
 printcp(rPartModel1)
@@ -87,11 +87,11 @@ rpart.plot(rPartModel1)
 predcartTrain1 <- predict(rPartModel1, newdata = train, type = "vector")
 predcartTest1 <- predict(rPartModel1, newdata = test, type = "vector")
 
-ErrorDF <- data.frame(ErrorDF, TrainErrorC0.001 = regr.eval(train$TotalRevenueGenerated, predcartTrain1))
-ErrorDF <- data.frame(ErrorDF, TestErrorC0.001 = regr.eval(test$TotalRevenueGenerated, predcartTest1))
+ErrorDF <- data.frame(ErrorDF, TrainCP0.001 = regr.eval(train$TotalRevenueGenerated, predcartTrain1))
+ErrorDF <- data.frame(ErrorDF, TestCP0.001 = regr.eval(test$TotalRevenueGenerated, predcartTest1))
 
-# at cp 0.001, xerror  0.12117 is further decreasing
-# lets try with cp = 0.0001 and then tried 0.0009 because error was constant
+# at cp 0.001, xerror  0.12117
+# Building model with cp=0.0001 to check if further the xerror is decreasing
 rPartModel2 <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova", control = rpart.control(cp = 0.0001))
 print(rPartModel2)
 printcp(rPartModel2)
@@ -101,11 +101,11 @@ plotcp(rPartModel2)
 predcartTrain2 <- predict(rPartModel2, newdata = train, type = "vector")
 predcartTest2 <- predict(rPartModel2, newdata = test, type = "vector")
 
-ErrorDF <- data.frame(ErrorDF, TrainErrorC0.0001 = regr.eval(train$TotalRevenueGenerated, predcartTrain2))
-ErrorDF <- data.frame(ErrorDF, TestErrorC0.0001 = regr.eval(test$TotalRevenueGenerated, predcartTest2))
+ErrorDF <- data.frame(ErrorDF, TrainCP0.0001 = regr.eval(train$TotalRevenueGenerated, predcartTrain2))
+ErrorDF <- data.frame(ErrorDF, TestCP0.0001 = regr.eval(test$TotalRevenueGenerated, predcartTest2))
 
-# As the error is mostly constant in rpart.plot, lets try min split 10
-
+# The error seems to be constant as seen in rpart.plot, try with min split 10 to check if error is decreasing
+# Building model with cp=0.0001 , minsplit = 10
 rPartModel3 <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova", control = rpart.control(cp = 0.0001, minsplit = 10))
 print(rPartModel3)
 printcp(rPartModel3)
@@ -115,11 +115,11 @@ plotcp(rPartModel3)
 predcartTrain3 <- predict(rPartModel3, newdata = train, type = "vector")
 predcartTest3 <- predict(rPartModel3, newdata = test, type = "vector")
 
-ErrorDF <- data.frame(ErrorDF, TrainErrorC0.0001MinSplit10 = regr.eval(train$TotalRevenueGenerated, predcartTrain3))
-ErrorDF <- data.frame(ErrorDF, TestErrorC0.0001MinSplit10 = regr.eval(test$TotalRevenueGenerated, predcartTest3))
+ErrorDF <- data.frame(ErrorDF, TrainCP0.0001_MinSp10 = regr.eval(train$TotalRevenueGenerated, predcartTrain3))
+ErrorDF <- data.frame(ErrorDF, TrainCP0.0001_MinSp10 = regr.eval(test$TotalRevenueGenerated, predcartTest3))
 
-# As the error is mostly constant in rpart.plot, lets try min split 50
-
+# The mape seems to be constant , try with cp = 0.00001 to check if error is decreasing
+# Building model with cp = 0.00001, minsplit = 10
 rPartModel4 <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova", control = rpart.control(cp = 0.00001, minsplit = 10))
 print(rPartModel4)
 printcp(rPartModel4)
@@ -129,12 +129,11 @@ plotcp(rPartModel4)
 predcartTrain4 <- predict(rPartModel4, newdata = train, type = "vector")
 predcartTest4 <- predict(rPartModel4, newdata = test, type = "vector")
 
-ErrorDF <- data.frame(ErrorDF, TrainErrorC0.0001MinSplit50 = regr.eval(train$TotalRevenueGenerated, predcartTrain4))
-ErrorDF <- data.frame(ErrorDF, TestErrorC0.0001MinSplit50 = regr.eval(test$TotalRevenueGenerated, predcartTest4))
+ErrorDF <- data.frame(ErrorDF, Train0.00001_MinSp10 = regr.eval(train$TotalRevenueGenerated, predcartTrain4))
+ErrorDF <- data.frame(ErrorDF, Test0.00001_MinSp10 = regr.eval(test$TotalRevenueGenerated, predcartTest4))
 
-######
-# trying with cp #5.2803e-05
-
+#xerror is increasing after 2.0873e-04
+# Building model with cp = 2.0873e-04, minsplit = 10
 #rPartModel5 <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova", control = rpart.control(cp = 5.2803e-05, minsplit = 10))
 rPartModel5 <- rpart(TotalRevenueGenerated ~ ., data = train, method = "anova", control = rpart.control(cp = 2.0873e-04, minsplit = 10))
 
@@ -146,8 +145,8 @@ plotcp(rPartModel5)
 predcartTrain5 <- predict(rPartModel5, newdata = train, type = "vector")
 predcartTest5 <- predict(rPartModel5, newdata = test, type = "vector")
 
-ErrorDF <- data.frame(ErrorDF, TrainErrorC0.00005MinSplit10 = regr.eval(train$TotalRevenueGenerated, predcartTrain5))
-ErrorDF <- data.frame(ErrorDF, TestErrorC0.00005MinSplit10 = regr.eval(test$TotalRevenueGenerated, predcartTest5))
+ErrorDF <- data.frame(ErrorDF, Train0.00002_MinSp10 = regr.eval(train$TotalRevenueGenerated, predcartTrain5))
+ErrorDF <- data.frame(ErrorDF, Test0.00002_MinSp10 = regr.eval(test$TotalRevenueGenerated, predcartTest5))
 
 # when we saw summary of rpartModel3 
 # summary shows error increases at below row
@@ -156,7 +155,8 @@ ErrorDF <- data.frame(ErrorDF, TestErrorC0.00005MinSplit10 = regr.eval(test$Tota
 # and min split 10
 
 train_control <- trainControl(method = "repeatedcv", number = 50, savePredictions = TRUE)
-?train
+? train
+cvModel <- train(TotalRevenueGenerated ~ ., data = train, method = "rpart", trControl = train_control)
 cvModel <- train(TotalRevenueGenerated ~ ., data = train, method = "rpart", trControl = train_control, parms = lift(split = "gini"), tunelength= 10 )
 cvModel$bestTune
 print(cvModel)
