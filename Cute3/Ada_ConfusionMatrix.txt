@@ -1,0 +1,28 @@
+ confusionMatrix(test_target, test_pred) # Balanced accuracy: 94.97%
+Confusion Matrix and Statistics
+
+          Reference
+Prediction Premimum Regular
+  Premimum        8       6
+  Regular         1    8766
+                                          
+               Accuracy : 0.9992          
+                 95% CI : (0.9984, 0.9997)
+    No Information Rate : 0.999           
+    P-Value [Acc > NIR] : 0.3238          
+                                          
+                  Kappa : 0.6953          
+ Mcnemar's Test P-Value : 0.1306          
+                                          
+            Sensitivity : 0.8888889       
+            Specificity : 0.9993160       
+         Pos Pred Value : 0.5714286       
+         Neg Pred Value : 0.9998859       
+             Prevalence : 0.0010249       
+         Detection Rate : 0.0009111       
+   Detection Prevalence : 0.0015944       
+      Balanced Accuracy : 0.9441024       
+                                          
+       'Positive' Class : Premimum        
+                                          
+> 
