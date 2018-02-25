@@ -1,0 +1,9 @@
+- Sat - 9 am - open book exam
+- 6PM - upload R code
+
+- 7AM next morning - presentation
+- sun 9am - viva starts
+
+-- more priority is given to accuracy or model tuning
+
+-- data preprocessing is imp
